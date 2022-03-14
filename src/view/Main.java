@@ -6,9 +6,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.TreeSet;
+
 import controller.InsertionSort;
 import controller.ManipularTxt;
 import controller.ManipularVetor;
@@ -98,7 +102,7 @@ public class Main {
 
 		System.out.println("\t| Transformando Data, aguarde...|");
 
-		App[] base_dados_inicial = iniciarOperacoes("C:\\Users\\leand\\Desktop\\googleplaystore.csv");	 //ALTERAR CAMINHO
+		App[] base_dados_inicial = iniciarOperacoes("C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore.csv");	 //ALTERAR CAMINHO
 
 		ManipularVetor gerenteVetor = new ManipularVetor(base_dados_inicial);
 		
@@ -108,7 +112,7 @@ public class Main {
 		if (salvo_transformacao) {
 
 			App[] base_dados_transformada = iniciarOperacoes(
-					"C:\\Users\\leand\\Desktop\\googleplaystore_date.csv");
+					"C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore_date.csv");
 			gerenteVetor.setVetor(base_dados_transformada);
 
 			do {
@@ -199,7 +203,7 @@ public class Main {
 				case 5: {
 					System.out.print("Escreva qual categoria que voce deseja: ");
 					op3 = sc.next();
-					filtrar(op3, "C:\\Users\\leand\\Desktop\\googleplaystore.csv");
+					filtrar(op3, "C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore_date.csv");
 				}
 					break;	
 				case 0:					
@@ -372,6 +376,8 @@ public class Main {
 	public static void filtrar(String genero, String url) {
 		
 		
+		long tempoInicial = System.currentTimeMillis();
+
 		System.out.println("voce quer filtrar por: " + genero);
 	
 		ManipularTxt manipulador = new ManipularTxt();
@@ -379,10 +385,9 @@ public class Main {
 		File arquivo_base = new File(url);
 		String[] conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
 		
+		TreeSet<App> base_dados = new TreeSet<>();
 
-		App[] base_dados = new App[20000];
-
-		int contador = 0;
+		
 		for (String linha : conteudo_linha_a_linha) {
 
 			if (linha == null) {
@@ -407,8 +412,8 @@ public class Main {
 						app.setCurrent_ver(atributos[11]);
 						app.setAndroid_ver(atributos[12]);
 
-						base_dados[contador] = app;
-						contador++;
+						base_dados.add(app);
+						
 						
 				}} catch (Exception e) {
 				}
@@ -418,11 +423,12 @@ public class Main {
 	
 		ManipularVetor gerenteVetor = new ManipularVetor(base_dados);
 		
-		gerenteVetor.salvarCsv(gerenteVetor.gerarCsv(base_dados),
+		gerenteVetor.salvarCsv(gerenteVetor.gerarCsvA(base_dados),
 				" googleplaystore_" + genero); 
 
-	}
-	
+		
+		System.out.println("Filtragem executada em " + (System.currentTimeMillis() - tempoInicial)/1000.0 + " segundos.");
+	} 
 	
 
 }

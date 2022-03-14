@@ -2,24 +2,49 @@ package controller;
 
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
 import model.App;
 
 public class ManipularVetor {
 
 	private App[] vetor;
+	LinkedList<App> Array = new LinkedList<>();
+	
 	private static InsertionSort ordenadorInsertionSort;
 	private static SelectionSort ordenadorSelectionSort;
 
 	private ManipularTxt manipularTxt ;
-	private String caminho_padrao = ("C:\\Users\\leand\\Desktop");
+	private String caminho_padrao = ("C:\\Users\\LeandroLincoln\\Desktop");
 	
-	public ManipularVetor( App[] vetor) {
-		this.vetor = vetor;
+	
+	
+	public ManipularVetor( TreeSet<App> base_dados) {
+		this.vetor = converte(Array);
 		
 		 ordenadorInsertionSort = new InsertionSort();
 		 ordenadorSelectionSort = new SelectionSort();
 		 manipularTxt = new ManipularTxt();
+	}
+	
+	public ManipularVetor(App[] base_dados) {
+		this.vetor = converte(Array);
+		
+		 ordenadorInsertionSort = new InsertionSort();
+		 ordenadorSelectionSort = new SelectionSort();
+		 manipularTxt = new ManipularTxt();
+	}
+	
+
+
+	public App[] converte(LinkedList<App> array2) {
+		App[] vetor = new App[array2.size()];
+		for (int i = 0; i < array2.size(); i++) {
+			vetor[i] = (App) array2.get(i);
+			
+		} return vetor;
 	}
 
 
@@ -537,6 +562,37 @@ public App[] inverterVetor(App[] vetor) {
 		
 		return texto;
 	}
+	
+	public String gerarCsvA (TreeSet<App> vetor) {
+		String texto = "";
+		for(App app : vetor) {
+			if(app != null) {
+				
+				String linha = "";
+				linha = app.getName() + "," +
+				        app.getCategory() + "," +
+				        app.getRating() + "," +
+						app.getReviews() + "," + 
+				        app.getSize() + "," +
+						app.getInstalls() + "," +
+						app.getType() + "," +
+				        app.getPrice() + "," +
+						app.getContent_rating() + ","+
+				        app.getGenres() + "," +
+						app.getLast_update() + "," +
+				        app.getCurrent_ver() + "," +
+						app.getAndroid_ver() + "\n";
+				
+				texto += linha;
+				
+			}else {
+				break;
+			}
+		}
+		
+		return texto;
+	}
+
 	
 public boolean salvarCsv(String texto, String nome_arquivo) {
 		
