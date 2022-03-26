@@ -1,6 +1,6 @@
 package model;
 
-public class App implements Comparable<App> {
+public class App {
 
 	private String name, category, rating, reviews, size, installs, type, price, content_rating, genres, last_update, current_ver, android_ver;
 
@@ -138,11 +138,6 @@ public class App implements Comparable<App> {
 				+ ", size=" + size + ", installs=" + installs + ", type=" + type + ", price=" + price
 				+ ", content_rating=" + content_rating + ", genres=" + genres + ", last_update=" + last_update
 				+ ", current_ver=" + current_ver + ", android_ver=" + android_ver + "]";
-	}
-
-	@Override
-	public int compareTo(App app) {
-		return name.compareTo(app.name);
 	}
 	
 	

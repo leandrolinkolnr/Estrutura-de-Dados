@@ -17,6 +17,7 @@ import java.nio.file.Files;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ManipularTxt {
 
@@ -150,11 +151,11 @@ public class ManipularTxt {
      
 	}
 	
-	public String[] lerArquivo(File file) {
+	public ArrayList<String> lerArquivo(File file) {
 		 FileReader ler;
 		 
-		 String[] linhas = new String[20000];
-		 int contador = 0;
+		 ArrayList<String> linhas = new ArrayList<>();
+		// int contador = 0;
 		try {
 			ler = new FileReader(file);
 			
@@ -165,9 +166,9 @@ public class ManipularTxt {
 			    try {
 					while( (linha = reader.readLine()) != null ){
 						
-						linhas[contador] = linha;
+						linhas.add(linha);
 
-					    contador++;
+					    //contador++;
 					}
 					reader.close();
 					//System.out.println("Leitura concluida");

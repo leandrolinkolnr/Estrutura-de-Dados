@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -23,26 +23,27 @@ public class Main {
 	private static Scanner sc;
 
 	
-	private static App[] iniciarOperacoes(String url) {
+	private static HashSet<App> iniciarOperacoes(String url) {
 
 		ManipularTxt manipulador = new ManipularTxt();
 
 		File arquivo_base = new File(url);
-		String[] conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
+		ArrayList<String> conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
 		SimpleDateFormat formato_transformado = new SimpleDateFormat("dd/MM/yyyy");
 
-		App[] base_dados = new App[20000];
+	//	App[] base_dados = new App[20000];
+		HashSet<App> base_dados = new HashSet<App>();
 		
 		
-		int contador = 0;
+		//int contador = 0;
 		
-		for (int i = 1; i < conteudo_linha_a_linha.length; i++) {
-			if (conteudo_linha_a_linha[i] == null) {
+		for (int i = 1; i < conteudo_linha_a_linha.size(); i++) {
+			if (conteudo_linha_a_linha.get(i) == null) {
 				break;
 			} else {
 				try {
 					
-					String[] atributos = conteudo_linha_a_linha[i].split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+					String[] atributos = conteudo_linha_a_linha.get(i).split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 					App app = new App();
 					app.setName(atributos[0]);
 					app.setCategory(atributos[1]);
@@ -82,9 +83,9 @@ public class Main {
 					app.setCurrent_ver(atributos[11]);
 					app.setAndroid_ver(atributos[12]);
 
-					base_dados[contador] = app;
+					base_dados.add(app);
 
-					contador++;
+				//	contador++;
 				} catch (Exception e) {
 				}
 			}
@@ -102,7 +103,7 @@ public class Main {
 
 		System.out.println("\t| Transformando Data, aguarde...|");
 
-		App[] base_dados_inicial = iniciarOperacoes("C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore.csv");	 //ALTERAR CAMINHO
+		HashSet<App> base_dados_inicial = iniciarOperacoes("C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore.csv");	 //ALTERAR CAMINHO
 
 		ManipularVetor gerenteVetor = new ManipularVetor(base_dados_inicial);
 		
@@ -111,8 +112,8 @@ public class Main {
 
 		if (salvo_transformacao) {
 
-			App[] base_dados_transformada = iniciarOperacoes(
-					"C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore_date.csv");
+			HashSet<App> base_dados_transformada = iniciarOperacoes(
+					"C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore.csv");
 			gerenteVetor.setVetor(base_dados_transformada);
 
 			do {
@@ -203,7 +204,7 @@ public class Main {
 				case 5: {
 					System.out.print("Escreva qual categoria que voce deseja: ");
 					op3 = sc.next();
-					filtrar(op3, "C:\\Users\\LeandroLincoln\\Desktop\\googleplaystore_date.csv");
+					filtrar(op3, "C:\\Users\\leand\\Desktop\\googleplaystore.csv");
 				}
 					break;	
 				case 0:					
@@ -383,11 +384,10 @@ public class Main {
 		ManipularTxt manipulador = new ManipularTxt();
 
 		File arquivo_base = new File(url);
-		String[] conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
+		ArrayList<String> conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
 		
 		TreeSet<App> base_dados = new TreeSet<>();
 
-		
 		for (String linha : conteudo_linha_a_linha) {
 
 			if (linha == null) {
@@ -421,14 +421,16 @@ public class Main {
 
 		}
 	
-		ManipularVetor gerenteVetor = new ManipularVetor(base_dados);
+		ManipularVetor gerenteVetor = new ManipularVetor();
 		
-		gerenteVetor.salvarCsv(gerenteVetor.gerarCsvA(base_dados),
+		gerenteVetor.salvarCsv(gerenteVetor.gerarCsv(base_dados),
 				" googleplaystore_" + genero); 
 
 		
 		System.out.println("Filtragem executada em " + (System.currentTimeMillis() - tempoInicial)/1000.0 + " segundos.");
-	} 
+
+	}
+	
 	
 
 }
