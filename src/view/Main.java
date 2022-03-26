@@ -31,11 +31,7 @@ public class Main {
 		ArrayList<String> conteudo_linha_a_linha = manipulador.lerArquivo(arquivo_base);
 		SimpleDateFormat formato_transformado = new SimpleDateFormat("dd/MM/yyyy");
 
-	//	App[] base_dados = new App[20000];
 		HashSet<App> base_dados = new HashSet<App>();
-		
-		
-		//int contador = 0;
 		
 		for (int i = 1; i < conteudo_linha_a_linha.size(); i++) {
 			if (conteudo_linha_a_linha.get(i) == null) {
@@ -85,7 +81,6 @@ public class Main {
 
 					base_dados.add(app);
 
-				//	contador++;
 				} catch (Exception e) {
 				}
 			}
@@ -430,7 +425,4 @@ public class Main {
 		System.out.println("Filtragem executada em " + (System.currentTimeMillis() - tempoInicial)/1000.0 + " segundos.");
 
 	}
-	
-	
-
 }
